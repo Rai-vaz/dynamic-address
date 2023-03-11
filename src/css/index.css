@@ -1,0 +1,23 @@
+:root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  --bg-color: #04044c;
+  --secondary-bg-color: #494a7d;
+  --primary-color: #fff;
+  --secondary-color: #26c787;
+  --text-color: #8789af;
+  --border-color: #20235b;
+}
+
+#checkout-page{
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  font-size: 1.6rem;
+  
+}
+
+.hide{
+  display: none;
+}
