@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import Loader from './components/Loader'
 import Message from './components/Message'
 import HeaderForm from './components/HeaderForm'
@@ -5,13 +6,14 @@ import Form from './components/MyForm'
 import './css/App.css'
 
 function App() {
+  const [toggleLoader, setToggleLoader] = useState(false)
 
   return (
     <div className="App">
     
-      <div className='container-content hide'>
-        <Loader/>
+      <div className={`container-content ${toggleLoader ? '' : 'hide'}`}>
         <Message/>
+        <Loader/>
       </div>
 
       <HeaderForm/>
