@@ -10,14 +10,12 @@ function App() {
 
   return (
     <div className="App">
-    
-      <div className={`container-content ${toggleLoader ? '' : 'hide'}`}>
-        <Message/>
-        <Loader/>
-      </div>
+        {/*<Message/>*/}
+        {toggleLoader && <Loader/>}
 
       <HeaderForm/>
-      <Form/>
+      <Form setToggleLoader={setToggleLoader}/>
+      
 
 
     </div>

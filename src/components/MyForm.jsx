@@ -17,36 +17,32 @@ const MyForm = ({setToggleLoader}) => {
       return
     }
 
-    //setCep(e.target.value)    
+    setCep(e.target.value)    
   }
 
-  const getAddress = (cepNumber) => {
-    inputCepRef.current.blur()
-    setToggleLoader(true)
+  const getAddress = async (cepNumber) => {
 
+    inputCepRef.current.blur()  
     const apiUrl = `https://viacep.com.br/ws/${cepNumber}/json/`
-    fetch(apiUrl)
-    .then(resp => resp.json()
-      .then(data => {
-        setToggleLoader(false)
-        setAddress({Rua: data.logradouro, Bairro: data.bairro, Cidade:data.localidade, Estado: data.uf})
-      })
-    )
-    .catch((error) => console.log('deu ruim '+ error))
-
-
-    
-
-
-
-
-
+    const res = await fetch(apiUrl)
+    setToggleLoader(true)
+    const data = await res.json()    
+    setCep('')  
+    setTimeout(() => {
+      setToggleLoader(false)
+      setAddress({Rua: data.logradouro, Bairro: data.bairro, Cidade:data.localidade, Estado: data.uf}) 
+    },1000)
+  
   }
 
   cep.length === 8 && getAddress(cep)
 
+  const handleClick = () => {
+    
+  }
 
- 
+  
+
   return (
     <div className="container">
       <h2>Cadastre o seu endereço</h2>
@@ -178,13 +174,12 @@ const MyForm = ({setToggleLoader}) => {
           </Row>
           <Row>
             <div className='btn-register'>
-              <button type='submit'>Cadastrar</button>
+              <button type='submit' onClick={handleClick}>Cadastrar</button>
             </div>
           </Row>
         </form>
        
       </div>
-        
     </div>
   )
 }

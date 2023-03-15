@@ -11,7 +11,7 @@ const HeaderForm = () => {
                 <p className="d-none d-md-block">Criação de conta</p>
             </div>
             <div className="step">
-                <FaMapMarkerAlt className='icon'/>
+                <FaMapMarkerAlt className='icon active'/>
                 <p className="d-none d-md-block">Endereço</p>
             </div>
             <div className="step">
