@@ -2,41 +2,32 @@ import { Button, Modal } from "react-bootstrap"
 import { useState } from "react"
 import '../css/Message.css'
 
-const Message = () => {
+const Message = ({title, message}) => {
 
-  const [show, setShow] = useState(false)
-
-
-  const handleClick = () => setShow(true)
-  const handleClose = () => setShow(false)
-
+  const [toggleModal, setToggleModal] = useState(true)
 
   return (
-    <div className="container-message">
-      <Button variant="primary" onClick={handleClick}>
-        teste modal
-      </Button>
-
+    <div className="container-message">      
      <Modal 
-      show={show} 
+      show={toggleModal} 
       keyboard={false} 
       backdrop='static'
       centered={true}
       >
-      <Modal.Header>
-          <Modal.Title>Meu modal personalizado</Modal.Title>
+        <Modal.Header>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          Esse será meu modal de fechamento da mensagem
+          {message}
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="danger" onClick={handleClose} size='lg'>
+          <Button variant="danger" onClick={() => setToggleModal(false)} size='lg'>
             Close
           </Button>
         </Modal.Footer>
-     </Modal>
+      </Modal>
     </div>
   )
 }

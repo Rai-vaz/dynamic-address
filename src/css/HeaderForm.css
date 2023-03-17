@@ -1,6 +1,10 @@
+.container{
+    max-width: 60vw !important;
+}
+
 #order-form-container{
     padding: 1rem !important;
-    margin-top: 10rem;
+    margin-top: 5rem;
 }
 
 #steps{

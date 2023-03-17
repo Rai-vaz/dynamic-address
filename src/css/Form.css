@@ -9,7 +9,7 @@
 #form-container .form-control, select#floatingSelect{
     box-sizing: content-box;
     background-color: var(--bg-color);
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
     color: var(--primary-color);
     outline: none;
     font-size: 1.8rem;
@@ -46,7 +46,7 @@
     font-size: 1.9rem;
     border-radius: .8rem;
     transition: .3s;
-    opacity: .9;
+    opacity: .8;
 }
 
 .btn-register button:hover{

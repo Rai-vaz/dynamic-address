@@ -1,4 +1,5 @@
 .modal-dialog{
     font-size: 1.6rem;
+    color: var(--bg-color);
     
 }

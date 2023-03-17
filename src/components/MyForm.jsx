@@ -1,5 +1,6 @@
 import { FloatingLabel, Form, Row, Col } from 'react-bootstrap'
 import {useState, useRef} from 'react'
+import Message from './Message'
 import '../css/Form.css'
 
 
@@ -7,7 +8,19 @@ const MyForm = ({setToggleLoader}) => {
 
   const [cep, setCep] = useState('')
   const [address, setAddress] = useState({Rua:'', Cidade:'', Bairro:'', Estado:''})
-  const inputCepRef = useRef('')
+  const [showMessage, setShowMessage] = useState(false)
+
+  //refs
+  /*const refCep = useRef('')
+  const refRua = useRef('')
+  const refNumero = useRef('')
+  const RefComplemento = useRef('')
+  const refBairro = useRef('')
+  const refCity = useRef('')
+  const refState = useRef('')*/
+
+
+  
 
   const handleKeyUp = (e) => {
     const onlyNumbers = /[0-9]/
@@ -22,7 +35,7 @@ const MyForm = ({setToggleLoader}) => {
 
   const getAddress = async (cepNumber) => {
 
-    inputCepRef.current.blur()  
+    refCep.current.blur()  
     const apiUrl = `https://viacep.com.br/ws/${cepNumber}/json/`
     const res = await fetch(apiUrl)
     setToggleLoader(true)
@@ -30,9 +43,8 @@ const MyForm = ({setToggleLoader}) => {
     setCep('')  
     setTimeout(() => {
       setToggleLoader(false)
-      setAddress({Rua: data.logradouro, Bairro: data.bairro, Cidade:data.localidade, Estado: data.uf}) 
-    },1000)
-  
+      data.erro ? setShowMessage(true) : setAddress({Rua: data.logradouro, Bairro: data.bairro, Cidade:data.localidade, Estado: data.uf}) 
+    },1000)    
   }
 
   cep.length === 8 && getAddress(cep)
@@ -60,7 +72,6 @@ const MyForm = ({setToggleLoader}) => {
                   minLength={8}
                   maxLength={8}
                   name='cep'
-                  ref={inputCepRef}
                   onKeyUp={handleKeyUp}
               
                 />
@@ -172,13 +183,13 @@ const MyForm = ({setToggleLoader}) => {
               </FloatingLabel>
             </Col>
           </Row>
-          <Row>
+          <Row>        
             <div className='btn-register'>
               <button type='submit' onClick={handleClick}>Cadastrar</button>
-            </div>
+            </div>            
           </Row>
         </form>
-       
+        {showMessage && <Message title='Cep não encontrado!' message='Verifique seu cep e tente novamente'/>}
       </div>
     </div>
   )
