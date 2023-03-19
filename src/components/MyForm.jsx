@@ -7,17 +7,17 @@ import '../css/Form.css'
 const MyForm = ({setToggleLoader}) => {
 
   const [cep, setCep] = useState('')
-  const [address, setAddress] = useState({Rua:'', Cidade:'', Bairro:'', Estado:''})
-  const [showMessage, setShowMessage] = useState(false)
+  const [address, setAddress] = useState({Rua:'', Numero:'', Cidade:'', Bairro:'', Estado:'inf'})
+  const [showMessage, setShowMessage] = useState({CepErro: false, saveAddress: false})
 
   //refs
-  /*const refCep = useRef('')
-  const refRua = useRef('')
-  const refNumero = useRef('')
-  const RefComplemento = useRef('')
-  const refBairro = useRef('')
+  const refCep = useRef('')
+  const refStreet = useRef('')
+  const refNumber = useRef('')
+  const refComplement = useRef('')
+  const refNeighborhood = useRef('')
   const refCity = useRef('')
-  const refState = useRef('')*/
+  const refState = useRef('')
 
 
   
@@ -33,24 +33,50 @@ const MyForm = ({setToggleLoader}) => {
     setCep(e.target.value)    
   }
 
+  const toggleDisableInput = (toggle) => {
+    refStreet.current.disabled = toggle
+    refNumber.current.disabled = toggle
+    refComplement.current.disabled = toggle
+    refNeighborhood.current.disabled = toggle
+    refCity.current.disabled = toggle
+    refState.current.disabled = toggle
+  }
+
   const getAddress = async (cepNumber) => {
 
     refCep.current.blur()  
     const apiUrl = `https://viacep.com.br/ws/${cepNumber}/json/`
     const res = await fetch(apiUrl)
     setToggleLoader(true)
-    const data = await res.json()    
-    setCep('')  
+    const data = await res.json()
+    setCep('')
     setTimeout(() => {
       setToggleLoader(false)
-      data.erro ? setShowMessage(true) : setAddress({Rua: data.logradouro, Bairro: data.bairro, Cidade:data.localidade, Estado: data.uf}) 
-    },1000)    
+      if (data.erro) {
+        setShowMessage({...showMessage, CepErro: true})
+        toggleDisableInput(true)
+      } else {
+        setAddress({Rua: data.logradouro, Bairro: data.bairro, Cidade:data.localidade, Estado: data.uf})
+        toggleDisableInput(false)
+      }
+    },1000)
   }
 
   cep.length === 8 && getAddress(cep)
 
-  const handleClick = () => {
-    
+  const handleClick = (e) => {
+    if(address.Numero === undefined){
+      return
+    }
+    e.preventDefault()
+    setToggleLoader(true)
+    setTimeout(() => {
+      setShowMessage({...showMessage, saveAddress: true})
+      toggleDisableInput(true)
+      setToggleLoader(false)
+      setAddress({})
+      refCep.current.value = ''
+    }, 1500)
   }
 
   
@@ -67,12 +93,14 @@ const MyForm = ({setToggleLoader}) => {
                 <Form.Control
                   className='shadow-none address-info'
                   type='text'
-                  placeholder='Digite seu CEP'
                   autoComplete='off'
+                  placeholder='Digite seu CEP'
                   minLength={8}
                   maxLength={8}
-                  name='cep'
+                  name='cep'                 
                   onKeyUp={handleKeyUp}
+                  ref={refCep}
+                  
               
                 />
               </FloatingLabel>
@@ -90,6 +118,7 @@ const MyForm = ({setToggleLoader}) => {
                   required
                   name='address'
                   value={address.Rua || ''}
+                  ref={refStreet}
                 />
               </FloatingLabel>
             </Col>
@@ -101,7 +130,11 @@ const MyForm = ({setToggleLoader}) => {
                   placeholder='Digite o número da sua residência'
                   autoComplete='off'
                   required
+                  disabled
+                  value={address.Numero || ''}
+                  onChange={e => setAddress({...address, Numero: e.target.value})}
                   name='numberAddress'
+                  ref={refNumber}
                 />
               </FloatingLabel>
             </Col>
@@ -115,6 +148,8 @@ const MyForm = ({setToggleLoader}) => {
                   placeholder='Complemento'
                   autoComplete='off'
                   name='complement'
+                  disabled
+                  ref={refComplement}
                 />
               </FloatingLabel>
             </Col>
@@ -129,6 +164,7 @@ const MyForm = ({setToggleLoader}) => {
                   name='neighborhood'
                   disabled
                   value={address.Bairro || ''}
+                  ref={refNeighborhood}
                   
                 />
               </FloatingLabel>
@@ -145,13 +181,14 @@ const MyForm = ({setToggleLoader}) => {
                   name='city'
                   disabled
                   value={address.Cidade || ''}
+                  ref={refCity}
                 />
               </FloatingLabel>
             </Col>
             <Col md={6}>
               <FloatingLabel controlId='floatingSelect' label='Estado'>
-                <Form.Select className='shadow-none address-info' disabled value={address.Estado}>
-                  <option value="">Selecione um estado</option>
+                <Form.Select className='shadow-none address-info' disabled ref={refState} value={address.Estado} onChange={(e) => setAddress({...address, Estado: e.target.value})}>
+                  <option value="inf">Selecione um estado</option>
                   <option value="AC">Acre</option>
                   <option value="AL">Alagoas</option>
                   <option value="AP">Amapá</option>
@@ -185,11 +222,12 @@ const MyForm = ({setToggleLoader}) => {
           </Row>
           <Row>        
             <div className='btn-register'>
-              <button type='submit' onClick={handleClick}>Cadastrar</button>
+              <button type='submit' onClick={e => handleClick(e)}>Cadastrar</button>
             </div>            
           </Row>
         </form>
-        {showMessage && <Message title='Cep não encontrado!' message='Verifique seu cep e tente novamente'/>}
+        {showMessage.CepErro && <Message title='Cep não encontrado!' message='Verifique seu cep e tente novamente' type={'danger'}/>}
+        {showMessage.saveAddress && <Message title={'Endereço salvo!'} message='Você também pode adicionar um outro endereço alternativo para a sua entrega' type={'primary'}/>}
       </div>
     </div>
   )

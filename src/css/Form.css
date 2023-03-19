@@ -6,7 +6,7 @@
     margin-top: 3rem;
 }
 
-#form-container .form-control, select#floatingSelect{
+#form-container .form-floating input, select#floatingSelect{
     box-sizing: content-box;
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
@@ -16,14 +16,13 @@
     
 }
 
-#form-container label, select#floatingSelect{
+#form-container label, select#floatingSelect label{
     color: var(--text-color);
 }
 
-#form-container input:disabled,
-#form-container #floatingSelect{
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color);
+#form-container input:disabled, select:disabled{
+    background-color: var(--secondary-bg-color) !important;
+    color: var(--text-color) !important;
 }
 
 #form-container .form-floating input:focus{
@@ -33,7 +32,6 @@
 .btn-register{
     display: flex;
     justify-content: flex-end;
-    
     
 }
 

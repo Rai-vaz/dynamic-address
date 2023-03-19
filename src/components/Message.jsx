@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap"
 import { useState } from "react"
 import '../css/Message.css'
 
-const Message = ({title, message}) => {
+const Message = ({title, message, type}) => {
 
   const [toggleModal, setToggleModal] = useState(true)
 
@@ -23,7 +23,7 @@ const Message = ({title, message}) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="danger" onClick={() => setToggleModal(false)} size='lg'>
+          <Button variant={type} onClick={() => setToggleModal(false)} size='lg'>
             Close
           </Button>
         </Modal.Footer>
