@@ -3,7 +3,7 @@ import '../css/HeaderForm.css'
 
 const HeaderForm = () => {
   return (
-    <div id='order-form-container' className="container px-md-0">
+    <div id='order-form-container' className="container px-md-0" >
         <div id='steps' className="mb-md-3 pb-md-3">
             <div className="line"></div>
             <div className="step">
