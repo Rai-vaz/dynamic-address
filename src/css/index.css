@@ -21,3 +21,9 @@
 .hide{
   display: none;
 }
+
+@media (max-width: 992px)  {
+  .lg-mb{
+    margin-bottom: 1rem;
+  }
+}

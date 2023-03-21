@@ -108,7 +108,7 @@ const MyForm = ({setToggleLoader}) => {
               </Col>
             </Row>
             <Row className='mb-3'>
-              <Col lg={6} md='mb-3'>
+              <Col lg={6} className='lg-mb'>
                 <FloatingLabel controlId='rua' label='Rua'>
                   <Form.Control
                     className='address-info'
@@ -141,7 +141,7 @@ const MyForm = ({setToggleLoader}) => {
               </Col>
             </Row>
             <Row className='mb-3'>
-              <Col lg={6}>
+              <Col lg={6} className='lg-mb'>
                 <FloatingLabel controlId='complement' label='Complemento'>
                   <Form.Control
                     className='shadow-none address-info'
@@ -171,7 +171,7 @@ const MyForm = ({setToggleLoader}) => {
               </Col>
             </Row>
             <Row className='mb-3'>
-              <Col lg={6}>
+              <Col lg={6} className='lg-mb'>
                 <FloatingLabel controlId='city' label='Cidade'>
                   <Form.Control
                     className='address-info'
